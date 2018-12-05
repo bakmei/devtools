@@ -1,0 +1,56 @@
+1/27/2016
+=========
+
+- Removed CacheAlgorithm interface.  Now algorithm should implements CacheSet interface instead. 
+- Added CacheSetFactory interface.  Algorithm implementation should implement the CacheSet interface to provide customized cache set structure. 
+- Added two methods in CacheSet interface for examining the cache blocks. 
+- Use LinkedHashMap for LRU implementation.
+- Use ConcurrentHashMap and Atomic reference for MRU implementation.
+
+Performance boosted after changed 
+
+Previous LRU run:
+ INFO [main] (MultithreadingTest.java:107) - Number of sample key/value pairs = 100
+ INFO [main] (MultithreadingTest.java:108) - Total consumers = 100
+ INFO [main] (MultithreadingTest.java:109) - Number of cache sets = 4
+ INFO [main] (MultithreadingTest.java:110) - Number of cache blocks/set = 10
+ INFO [main] (MultithreadingTest.java:111) - Total Hits = 5903615
+ INFO [main] (MultithreadingTest.java:112) - Total Miss = 9275426
+ INFO [main] (MultithreadingTest.java:113) - Total Hit % = 38.89
+ INFO [main] (MultithreadingTest.java:114) - Hits mean  = 59036.15
+ INFO [main] (MultithreadingTest.java:115) - Hits stdev = 1778.21
+ INFO [main] (MultithreadingTest.java:116) - Miss mean  = 92754.26
+ INFO [main] (MultithreadingTest.java:117) - Miss stdev = 2760.19
+
+After changes LRU run:
+ INFO [main] (MultithreadingTest.java:107) - Time Period (millis) = 5000
+ INFO [main] (MultithreadingTest.java:108) - Number of sample key/value pairs = 100
+ INFO [main] (MultithreadingTest.java:109) - Total consumers = 100
+ INFO [main] (MultithreadingTest.java:110) - Number of cache sets = 4
+ INFO [main] (MultithreadingTest.java:111) - Number of cache blocks/set = 10
+ INFO [main] (MultithreadingTest.java:112) - Total Hits = 9348552
+ INFO [main] (MultithreadingTest.java:113) - Total Miss = 14014816
+ INFO [main] (MultithreadingTest.java:114) - Total Hit % = 40.01
+ INFO [main] (MultithreadingTest.java:115) - Hits mean  = 93485.52
+ INFO [main] (MultithreadingTest.java:116) - Hits stdev = 4237.46
+ INFO [main] (MultithreadingTest.java:117) - Miss mean  = 140148.16
+ INFO [main] (MultithreadingTest.java:118) - Miss stdev = 6276.40
+
+After changes MRU run:
+ INFO [main] (MultithreadingTest.java:107) - Time Period (millis) = 5000
+ INFO [main] (MultithreadingTest.java:108) - Number of sample key/value pairs = 100
+ INFO [main] (MultithreadingTest.java:109) - Total consumers = 100
+ INFO [main] (MultithreadingTest.java:110) - Number of cache sets = 4
+ INFO [main] (MultithreadingTest.java:111) - Number of cache blocks/set = 10
+ INFO [main] (MultithreadingTest.java:112) - Total Hits = 11702562
+ INFO [main] (MultithreadingTest.java:113) - Total Miss = 17919443
+ INFO [main] (MultithreadingTest.java:114) - Total Hit % = 39.51
+ INFO [main] (MultithreadingTest.java:115) - Hits mean  = 117025.62
+ INFO [main] (MultithreadingTest.java:116) - Hits stdev = 4666.05
+ INFO [main] (MultithreadingTest.java:117) - Miss mean  = 179194.43
+ INFO [main] (MultithreadingTest.java:118) - Miss stdev = 7225.93
+
+Performance comparison:
+LRU boosted: Hits: 158%   Miss: 151%
+
+
